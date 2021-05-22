@@ -2,28 +2,28 @@ import requests
 import time
 import json
 from datetime import date, datetime, timedelta
-import playsound
+from playsound import playsound
 age  = int(input("Enter the age: "))
 pincodes = [input("Enter the pincode: ")]
 
 numOfDays = 2 #looking slots for next two days
 okFlag = 'y'
 
-print("Starting search for covid vaccine slots!")
+print("-----Starting search for covid vaccine slots!-----")
 
 todayDate = datetime.today()
-print(str(todayDate))
+# print(str(todayDate))
 
 dates_list = [todayDate + timedelta(days=i) for i in range(numOfDays)]
 formated_dates_list = [i.strftime("%d-%m-%Y") for i in dates_list]
 
-print(formated_dates_list)
-
-
+# print(formated_dates_list)
 while True:
     counter = 0
     for pincode in pincodes:
         for givenDate in formated_dates_list:
+            print("looking slot for date : " + givenDate)
+            print("---------------------------------------------------------------------------")
             URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={}&date={}".format(pincode, givenDate)
             header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'} 
 
@@ -45,7 +45,6 @@ while True:
 
                                 if session["vaccine"] != '':
                                     print("\t Vaccine type: ", session["vaccine"])
-                                print("\n")
                                 counter += 1
             else:
                 print("No Response\n")
@@ -54,11 +53,7 @@ while True:
     if counter == 0:
         print("No Vacination slot available!")
     else:
-        # filename = 'sound/notify.wav'
-        # wave_obj = sa.WaveObject.from_wave_file(filename)
-        # play_obj = wave_obj.play()
-        # play_obj.wait_done()  # Wait until sound has finished playing
-        playsound('sound/notify.wav')
+        playsound('Resources/notify.wav')
         print("search completed!") 
 
     timeGap = datetime.now() + timedelta(minutes=3)
