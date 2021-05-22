@@ -54,6 +54,7 @@ while True:
         print("No Vacination slot available!")
     else:
         playsound('Resources/notify.wav')
+        print("---------------------------------------------------------------------------")
         print("search completed!") 
 
     timeGap = datetime.now() + timedelta(minutes=3)
